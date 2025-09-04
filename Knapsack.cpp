@@ -1,26 +1,23 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int>wt,prft;
-vector<vector<int>>dp;
-int knapsack(int n,int m){
-    if(m==0||n==0)return 0;
-    if(dp[n][m]!=-1)return dp[n][m];
-    if(wt[n-1]>m){
-        return dp[n][m]=knapsack(n-1,m);
-    }
-    return dp[n][m]=max(knapsack(n-1,m),knapsack(n-1,m-wt[n-1])+prft[n-1]);
+const int N=1e3+2;
+int prft[N],wt[N];
+int dp[N][N];
+int knapsack(int n,int w){
+    if(n<=0 || w<=0)return 0;
+    if(dp[n][w]!=-1)return dp[n][w];
+    if(wt[n-1]>w)return dp[n][w]=knapsack(n-1,w);
+    else return dp[n][w]=max(knapsack(n-1,w),knapsack(n-1,w-wt[n-1])+prft[n-1]);
 }
 int main(){
-    //freopen("input.txt","r",stdin);
-    int n,m;
+    freopen("input.txt","r",stdin);
+    int n,w;
     cin>>n;
-    wt.resize(n);
-    prft.resize(n);
     for(int i=0;i<n;i++)cin>>wt[i];
     for(int i=0;i<n;i++)cin>>prft[i];
-    cin>>m;
-    dp.assign(n+1,vector<int>(m+1,-1));
-    cout<<knapsack(n,m)<<endl;
+    cin>>w;
+    memset(dp,-1,sizeof(dp));
+    cout<<knapsack(n,w)<<endl;
     return 0;
 }
 /*
